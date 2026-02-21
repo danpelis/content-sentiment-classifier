@@ -15,7 +15,8 @@ async def classify_headline_endpoint(request: ModelRequest):
     logging.info(f"Received request to classify -> {request.headline}")
     try:
         response = classify_headline(request.headline)
-        logging.info(f"Model Response -> {response['label']} with confidence {response['score']}")
-        return ModelResponse(sentiment=response['label'], confidence=response['score'])
+        logging.info(f"Model Response -> {response[0]} with confidence {response[1]}")
+        return ModelResponse(sentiment=response[0], confidence=response[1])
     except Exception as e:
+        logging.error(f"Error during classification: {e}")
         raise HTTPException(status_code=500, detail="Classification failed")
